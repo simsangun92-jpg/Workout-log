@@ -55,11 +55,11 @@
   .tab.active { background: var(--accent); color: #121214; border-color: var(--accent); }
   .container { padding: 12px 14px; max-width: 560px; margin: 0 auto; }
   .day-banner {
-    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
-    padding: 11px 13px; margin-bottom: 12px;
+    background: linear-gradient(135deg, #1e1f24, #17181c); border: 1px solid var(--border); border-radius: 14px;
+    padding: 13px 14px; margin-bottom: 12px;
     display: flex; justify-content: space-between; align-items: center; gap: 8px;
   }
-  .day-banner .sub { font-size: 13px; color: var(--muted); }
+  .day-banner .sub { font-size: 12px; color: var(--accent); font-weight: 700; margin-top: 2px; }
   .ex-card {
     background: var(--card); border: 1px solid var(--border); border-radius: 14px;
     padding: 13px; margin-bottom: 12px;
@@ -73,24 +73,29 @@
     padding: 6px 9px; margin-bottom: 10px;
   }
   .prev-box.empty { border-left-color: var(--border); color: var(--muted); }
-  .sets-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .sets-grid { display: flex; flex-direction: column; gap: 7px; }
   .set-row {
-    background: #121214; border: 1px solid var(--border); border-radius: 10px;
-    padding: 8px 9px; display: flex; align-items: center; gap: 6px;
+    background: #141417; border: 1px solid var(--border); border-radius: 11px;
+    padding: 9px 12px; display: flex; align-items: center; gap: 10px;
+    transition: border-color .15s, background .15s;
   }
-  .set-row.done { border-color: var(--accent); background: rgba(249,115,22,0.10); }
-  .set-lbl { font-size: 12px; color: var(--muted); width: 20px; font-weight: 700; flex-shrink: 0; }
+  .set-row.done { border-color: var(--accent); background: rgba(249,115,22,0.11); }
+  .set-lbl {
+    font-size: 11px; color: var(--muted); width: 42px; font-weight: 800;
+    letter-spacing: 0.4px; text-transform: uppercase; flex-shrink: 0;
+  }
+  .set-lbl::before { content: "SET "; font-size: 9px; color: #71717a; display: block; line-height: 1; margin-bottom: 1px; }
   .set-inp {
     width: 100%; background: transparent; border: none; color: var(--text);
-    font-size: 15px; font-weight: 700; outline: none; min-width: 0; font-variant-numeric: tabular-nums;
+    font-size: 17px; font-weight: 800; outline: none; min-width: 0; font-variant-numeric: tabular-nums;
   }
-  .set-inp::placeholder { color: #52525b; font-weight: 400; }
+  .set-inp::placeholder { color: #3f3f46; font-weight: 500; font-size: 14px; }
   .check-btn {
-    width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--border);
-    background: var(--card2); color: var(--muted); font-size: 14px; flex-shrink: 0; cursor: pointer;
+    width: 34px; height: 34px; border-radius: 999px; border: 2px solid #3f3f46;
+    background: transparent; color: var(--muted); font-size: 15px; flex-shrink: 0; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
   }
-  .set-row.done .check-btn { background: var(--accent); color: #121214; border-color: var(--accent); font-weight: 800; }
+  .set-row.done .check-btn { background: var(--accent); color: #121214; border-color: var(--accent); font-weight: 900; }
   .meta-row { display: flex; gap: 8px; margin-top: 8px; align-items: center; }
   .rir-select, .memo-inp {
     background: #121214; border: 1px solid var(--border); color: var(--text);
