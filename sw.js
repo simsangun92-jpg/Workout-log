@@ -1,6 +1,6 @@
 // 네트워크 우선(network-first): 항상 최신 파일을 먼저 받고,
 // 오프라인일 때만 캐시로 대신 응답한다. 그래서 program.json 수정이 바로 반영된다.
-const CACHE = "workout-cache-v2";
+const CACHE = "workout-cache-v3";
 const CORE = ["./", "./index.html", "./program.json", "./manifest.json", "./icon-192.png"];
 
 self.addEventListener("install", (event) => {

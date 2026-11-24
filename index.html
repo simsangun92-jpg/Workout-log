@@ -376,7 +376,10 @@ function renderHistory() {
     card.innerHTML = `
       <div class="hist-head">
         <div class="hist-title">${sess.date} · ${dayObj.label}</div>
-        <button class="del-btn" onclick="deleteHistory('${dayKey}', ${idx})">삭제</button>
+        <div style="display:flex;gap:6px;">
+          <button class="del-btn" style="color:var(--accent);border-color:var(--accent);" onclick="copyHistory('${dayKey}', ${idx})">복사</button>
+          <button class="del-btn" onclick="deleteHistory('${dayKey}', ${idx})">삭제</button>
+        </div>
       </div>
       ${linesHtml || '<div class="hist-line" style="color:var(--muted);">기록 없음</div>'}`;
     hList.appendChild(card);
@@ -556,14 +559,35 @@ function finishSession() {
   showToast("저장 완료! 히스토리에도 쌓였어요");
 }
 
-function copyReport() {
-  const dayObj = PROGRAM[currentDay];
-  const lines = [`[${todayStr()} ${dayObj.label}]`];
+function formatSessionText(dayKey, dateLabel, items) {
+  const dayObj = PROGRAM[dayKey];
+  const lines = [`[${dateLabel} ${dayObj.label}]`];
   dayObj.exercises.forEach(ex => {
-    const d = getDraft(currentDay, ex.id, ex.sets, ex.rir);
-    const sTxt = d.sets.filter(Boolean).join(", ");
-    if (sTxt) lines.push(`- ${ex.name}: ${sTxt} (RIR ${d.rir}${d.memo ? ", " + d.memo : ""})`);
+    const it = items && items[ex.id];
+    if (!it) return;
+    const sTxt = (it.sets || []).filter(Boolean).join(", ");
+    if (sTxt) lines.push(`- ${ex.name}: ${sTxt} (RIR ${it.rir || "-"}${it.memo ? ", " + it.memo : ""})`);
   });
+  return lines;
+}
+
+function copyHistory(dayKey, idx) {
+  const sess = (state.history[dayKey] || [])[idx];
+  if (!sess) return;
+  const lines = formatSessionText(dayKey, sess.date, sess.items);
+  if (lines.length === 1) { showToast("복사할 기록이 없어요"); return; }
+  navigator.clipboard.writeText(lines.join("\n")).then(() => showToast("복사됐어요! 요니에게 붙여넣기 하세요"));
+}
+
+function copyReport() {
+  let lines = formatSessionText(currentDay, todayStr(), state.draft[currentDay]);
+  if (lines.length === 1) {
+    const list = state.history[currentDay] || [];
+    if (list.length) {
+      const last = list[list.length - 1];
+      lines = formatSessionText(currentDay, last.date, last.items);
+    }
+  }
   if (lines.length === 1) { showToast("복사할 기록이 아직 없어요"); return; }
   navigator.clipboard.writeText(lines.join("\n")).then(() => showToast("복사됐어요! 요니에게 붙여넣기 하세요"));
 }
